@@ -1,7 +1,7 @@
 // import Posts from ../../components/posts/postsComponent;
-import { POST_ACTION_TYPES } from "../../action/actionTypes";
+import { POST_ACTION_TYPES } from "../../action/post/postActionTypes";
 
-export const poestReducer = (state = [], action) => {
+export const postReducer = (state = [], action) => {
 	//state always will be posts
 	switch (action.type) {
 		case POST_ACTION_TYPES.FETCH_ALL:

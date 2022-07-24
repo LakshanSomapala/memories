@@ -1,21 +1,16 @@
-import * as api from "../api"; //using * we can access all the functions in file rather than importing each and every one
-import { POST_ACTION_TYPES } from "./actionTypes";
-
-import axios from "axios";
-
-const url = "http://localhost:5001/posts";
+import * as api from "../../api"; //using * we can access all the functions in file rather than importing each and every one
+import { POST_ACTION_TYPES } from "./postActionTypes";
 
 //Action Creaters
 export const getPosts = () => async (dispatch) => {
 	// async()=> is for thunk
 	try {
-		const response = await axios.get(url);
-		// const response = await api.fetchPosts();
+		const response = await api.fetchPosts();
 		const { data } = response;
 		const action = { type: POST_ACTION_TYPES.FETCH_ALL, payload: data };
 		dispatch(action);
 	} catch (error) {
-		console.log(error.message);
+		console.log(error);
 	}
 };
 

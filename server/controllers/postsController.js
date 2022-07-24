@@ -15,7 +15,7 @@ export const getPosts = async (req, res) => {
 export const createPostModel = async (req, res) => {
 	// res.send("Post Creation");
 	const post = req.body; //this the frontend post details. body is the data from front-end (submited post form)
-	const newPost = new postModel(post);
+	const newPost = new postModel({ ...post, creator: req.userId });
 
 	try {
 		await newPost.save();
@@ -65,14 +65,22 @@ export const likePost = async (req, res) => {
 		return res.status(404).send("No post with that id");
 
 	try {
+		if (!req.userId) return res.json("Unauthenticated"); // using NEXT in middleware we can access the variable pass through it
+
 		const post = await postModel.findById(id);
-		const updatedPost = await postModel.findByIdAndUpdate(
-			id,
-			{
-				likeCount: post.likeCount + 1,
-			},
-			{ new: true }
-		);
+
+		const index = post.likes.findIndex((id) => id === String(req.userId));
+
+		if (index === -1) {
+			//like post
+			post.likes.push(req.userId);
+		} else {
+			//dislike post
+			post.likes = post.likes.filter((id) => id !== String(req.userId));
+		}
+		const updatedPost = await postModel.findByIdAndUpdate(id, post, {
+			new: true,
+		});
 		res.json(updatedPost);
 	} catch (error) {
 		console.log(error);

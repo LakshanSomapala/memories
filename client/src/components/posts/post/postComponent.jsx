@@ -5,10 +5,18 @@ import MoreHorizIcon from "@mui/icons-material/MoreHoriz";
 import moment from "moment";
 import "./postStyles.css";
 import { useDispatch } from "react-redux";
-import { deletePost, likePost } from "../../../action/postsAction";
+import { deletePost, likePost } from "../../../action/post/postsAction";
 
 const Post = ({ post, setCurrentId }) => {
 	const dispatch = useDispatch();
+	const user = JSON.parse(localStorage.getItem("profile"));
+
+	const deletePostHandler = () => {
+		if (post.creator === user.id || post.creator === user.sub) {
+			dispatch(deletePost(post._id));
+		}
+	};
+
 	return (
 		<div className="post-container" key={post.id}>
 			<img src={post.selectedFile} alt="" title={post.title} />
@@ -28,9 +36,13 @@ const Post = ({ post, setCurrentId }) => {
 			<div>
 				<button onClick={() => dispatch(likePost(post._id))}>
 					<ThumbUpIcon></ThumbUpIcon>
-					<span>Like {post.likeCount}</span>
+					<span>
+						{post.likes.length > 1
+							? `Likes ${post.likes.length}`
+							: `Like ${post.likes.length}`}
+					</span>
 				</button>
-				<button onClick={() => dispatch(deletePost(post._id))}>
+				<button onClick={deletePostHandler}>
 					<span>Delete</span>
 					<DeleteIcon></DeleteIcon>
 				</button>

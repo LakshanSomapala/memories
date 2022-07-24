@@ -3,6 +3,7 @@ import bodyParser from "body-parser";
 import cors from "cors";
 import mongoose from "mongoose";
 import postRoutes from "./routes/postRoutes.js";
+import userRoutes from "./routes/userRoutes.js";
 import dotenv from "dotenv";
 
 //initialise the app
@@ -15,6 +16,7 @@ app.use(cors());
 
 //add prefix to the url
 app.use("/posts", postRoutes);
+app.use("/user", userRoutes);
 
 app.get("/", (req, res) => {
 	res.send("Hello to memories API");
@@ -28,7 +30,8 @@ mongoose
 		useNewUrlParser: true,
 		useUnifiedTopology: true,
 	})
-	.then(() =>
+	.then(
+		() => mongoose.connection,
 		app.listen(PORT, () => console.log(`Server running on port ${PORT}`))
 	)
 	.catch((error) => console.log(error.message));

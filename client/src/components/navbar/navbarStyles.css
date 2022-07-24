@@ -1,0 +1,31 @@
+.aaa {
+	display: flex;
+	position: relative;
+	justify-content: flex-end;
+	gap: 1rem;
+}
+
+.heading-container {
+	margin: 30px;
+	display: flex;
+	flex-direction: column;
+	justify-content: space-around;
+	align-items: center;
+	background: inherit;
+}
+
+.heading {
+	align-items: center;
+	display: flex;
+	font-size: 3rem;
+}
+
+.heading-image {
+	margin-left: 15px;
+	height: 40px;
+}
+
+.heading-text {
+	color: rgba(0, 183, 255, 1);
+	text-decoration: none;
+}
